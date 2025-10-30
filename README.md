@@ -1,4 +1,4 @@
-# 🎯 LinEnum.sh - Don't Be a Dumbass
+# 🎯 LinEnum.sh - Security Education Project
 
 [![Educational Security Project](https://img.shields.io/badge/Security-Educational-green)](https://linenum.sh)
 [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)

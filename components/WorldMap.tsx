@@ -50,7 +50,7 @@ export default function WorldMap() {
     return (
       <div className="cyber-card">
         <h3 className="text-xl sm:text-2xl font-bold text-matrix-green mb-3 sm:mb-4 font-mono glow-text">
-          🗺️ Global Dumbass Map
+          🗺️ Global Usage Map
         </h3>
         <div className="flex justify-center py-8">
           <div className="loader"></div>
@@ -62,13 +62,13 @@ export default function WorldMap() {
   return (
     <div className="cyber-card">
       <h3 className="text-xl sm:text-2xl font-bold text-matrix-green mb-3 sm:mb-4 font-mono glow-text">
-        🗺️ Global Dumbass Map
+        🗺️ Global Usage Map
       </h3>
       <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">
         <span className="inline-block w-3 h-3 sm:w-4 sm:h-4 bg-matrix-green rounded-sm mr-2"></span>
-        Countries that have run LinEnum
+        Countries using LinEnum
         <span className="inline-block w-3 h-3 sm:w-4 sm:h-4 bg-gray-300 rounded-sm ml-4 mr-2"></span>
-        Safe countries (so far)
+        No usage yet
       </p>
 
       <div className="relative bg-gray-50 border-2 border-matrix-green/30 rounded-lg p-2 sm:p-4 overflow-hidden">

@@ -14,8 +14,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LinEnum.sh - Don't Be a Dumbass | Security Education",
-  description: "Scripted Local Linux Enumeration & Privilege Escalation Checks - Learn why you shouldn't blindly execute scripts from the internet",
+  title: "LinEnum.sh - Scripted Local Linux Enumeration & Privilege Escalation Checks",
+  description: "Automated Linux enumeration and privilege escalation checks for penetration testers and security researchers. Quick identification of privilege escalation vectors.",
   keywords: [
     "linenum",
     "linenum.sh",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     url: 'https://linenum.sh',
     siteName: 'LinEnum.sh',
     title: 'LinEnum.sh - Scripted Local Linux Enumeration & Privilege Escalation Checks',
-    description: 'Learn why you should never blindly execute scripts from the internet. Educational security project.',
+    description: 'Automated Linux enumeration and privilege escalation checks for penetration testers and security researchers worldwide.',
     images: [
       {
         url: '/og-image.png',
@@ -59,8 +59,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'LinEnum.sh - Don\'t Be a Dumbass',
-    description: 'Scripted Local Linux Enumeration & Privilege Escalation Checks - Learn security best practices',
+    title: 'LinEnum.sh - Linux Enumeration & Privilege Escalation',
+    description: 'Automated security enumeration script for penetration testing and security research. Quick privilege escalation checks.',
     images: ['/og-image.png'],
     creator: '@thedr0pperx',
   },
