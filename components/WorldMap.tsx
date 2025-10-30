@@ -94,23 +94,71 @@ export default function WorldMap() {
                     const props = geo.properties || {};
                     const countryName = props.name || '';
                     
-                    // Map of country codes to names
-                    const countryCodeToName: Record<string, string[]> = {
-                      'GB': ['United Kingdom', 'UK', 'Britain', 'Great Britain'],
-                      'US': ['United States', 'USA', 'United States of America'],
-                      'DE': ['Germany'],
-                      'FR': ['France'],
-                      'CA': ['Canada'],
-                      'AU': ['Australia'],
+                    // Comprehensive mapping of country codes to possible names in GeoJSON
+                    const getCountryNamesForCode = (code: string): string[] => {
+                      const mapping: Record<string, string[]> = {
+                        'US': ['United States', 'USA', 'United States of America'],
+                        'GB': ['United Kingdom', 'UK', 'Britain', 'Great Britain'],
+                        'CA': ['Canada'], 'AU': ['Australia'], 'DE': ['Germany'], 'FR': ['France'],
+                        'IT': ['Italy'], 'ES': ['Spain'], 'NL': ['Netherlands'], 'BE': ['Belgium'],
+                        'CH': ['Switzerland'], 'AT': ['Austria'], 'SE': ['Sweden'], 'NO': ['Norway'],
+                        'DK': ['Denmark'], 'FI': ['Finland'], 'PL': ['Poland'], 'IE': ['Ireland'],
+                        'PT': ['Portugal'], 'GR': ['Greece'], 'CZ': ['Czech Republic', 'Czechia'],
+                        'HU': ['Hungary'], 'RO': ['Romania'], 'BG': ['Bulgaria'], 'HR': ['Croatia'],
+                        'SK': ['Slovakia'], 'SI': ['Slovenia'], 'LT': ['Lithuania'], 'LV': ['Latvia'],
+                        'EE': ['Estonia'], 'LU': ['Luxembourg'], 'MT': ['Malta'], 'CY': ['Cyprus'],
+                        'IS': ['Iceland'], 'IN': ['India'], 'CN': ['China'], 'JP': ['Japan'],
+                        'KR': ['South Korea', 'Korea'], 'SG': ['Singapore'], 'MY': ['Malaysia'],
+                        'TH': ['Thailand'], 'ID': ['Indonesia'], 'PH': ['Philippines'], 'VN': ['Vietnam', 'Viet Nam'],
+                        'TW': ['Taiwan'], 'HK': ['Hong Kong'], 'AE': ['United Arab Emirates', 'UAE'],
+                        'SA': ['Saudi Arabia'], 'IL': ['Israel'], 'TR': ['Turkey'], 'EG': ['Egypt'],
+                        'ZA': ['South Africa'], 'NG': ['Nigeria'], 'KE': ['Kenya'], 'MA': ['Morocco'],
+                        'BR': ['Brazil'], 'MX': ['Mexico'], 'AR': ['Argentina'], 'CL': ['Chile'],
+                        'CO': ['Colombia'], 'PE': ['Peru'], 'VE': ['Venezuela'], 'EC': ['Ecuador'],
+                        'NZ': ['New Zealand'], 'RU': ['Russia', 'Russian Federation'], 'UA': ['Ukraine'],
+                        'BY': ['Belarus'], 'KZ': ['Kazakhstan'], 'UZ': ['Uzbekistan'], 'PK': ['Pakistan'],
+                        'BD': ['Bangladesh'], 'LK': ['Sri Lanka'], 'NP': ['Nepal'], 'MM': ['Myanmar', 'Burma'],
+                        'KH': ['Cambodia'], 'LA': ['Laos'], 'MN': ['Mongolia'], 'AF': ['Afghanistan'],
+                        'IQ': ['Iraq'], 'IR': ['Iran'], 'JO': ['Jordan'], 'LB': ['Lebanon'],
+                        'SY': ['Syria'], 'YE': ['Yemen'], 'OM': ['Oman'], 'KW': ['Kuwait'],
+                        'QA': ['Qatar'], 'BH': ['Bahrain'], 'DZ': ['Algeria'], 'TN': ['Tunisia'],
+                        'LY': ['Libya'], 'SD': ['Sudan'], 'ET': ['Ethiopia'], 'GH': ['Ghana'],
+                        'TZ': ['Tanzania'], 'UG': ['Uganda'], 'RW': ['Rwanda'], 'ZM': ['Zambia'],
+                        'ZW': ['Zimbabwe'], 'BW': ['Botswana'], 'MU': ['Mauritius'], 'MZ': ['Mozambique'],
+                        'AO': ['Angola'], 'SN': ['Senegal'], 'CI': ['Ivory Coast', 'Côte d\'Ivoire'],
+                        'CM': ['Cameroon'], 'MG': ['Madagascar'], 'CV': ['Cape Verde'], 'BJ': ['Benin'],
+                        'ML': ['Mali'], 'BF': ['Burkina Faso'], 'NE': ['Niger'], 'TD': ['Chad'],
+                        'MR': ['Mauritania'], 'GN': ['Guinea'], 'SL': ['Sierra Leone'], 'LR': ['Liberia'],
+                        'TG': ['Togo'], 'GA': ['Gabon'], 'CG': ['Congo'], 'CD': ['DR Congo', 'Democratic Republic of the Congo'],
+                        'CF': ['Central African Republic'], 'SO': ['Somalia'], 'DJ': ['Djibouti'],
+                        'ER': ['Eritrea'], 'SS': ['South Sudan'], 'UY': ['Uruguay'], 'PY': ['Paraguay'],
+                        'BO': ['Bolivia'], 'GY': ['Guyana'], 'SR': ['Suriname'], 'CR': ['Costa Rica'],
+                        'PA': ['Panama'], 'NI': ['Nicaragua'], 'HN': ['Honduras'], 'GT': ['Guatemala'],
+                        'BZ': ['Belize'], 'SV': ['El Salvador'], 'CU': ['Cuba'], 'JM': ['Jamaica'],
+                        'HT': ['Haiti'], 'DO': ['Dominican Republic'], 'PR': ['Puerto Rico'],
+                        'TT': ['Trinidad and Tobago'], 'BB': ['Barbados'], 'BS': ['Bahamas'],
+                        'FJ': ['Fiji'], 'PG': ['Papua New Guinea'],
+                      };
+                      return mapping[code.toUpperCase()] || [];
                     };
                     
                     // Check if country is active
                     const isActive = mapData.countries.some(code => {
-                      if (!code) return false;
+                      if (!code || code === 'Unknown' || code === 'LO') return false;
                       const upperCode = code.toUpperCase();
                       
                       // Get possible names for this code
-                      const possibleNames = countryCodeToName[upperCode] || [];
+                      const possibleNames = getCountryNamesForCode(upperCode);
+                      
+                      // If no mapping exists, try direct code match (some GeoJSON might have ISO codes)
+                      if (possibleNames.length === 0) {
+                        // Check if GeoJSON has ISO_A2 or similar property
+                        const isoCode = props.ISO_A2 || props.ISO_A3 || props.ISO || '';
+                        if (isoCode && isoCode.toUpperCase() === upperCode) {
+                          return true;
+                        }
+                        return false;
+                      }
                       
                       // Check if the geography name matches any possible name
                       const matches = possibleNames.some(possibleName => 
