@@ -40,7 +40,7 @@ export default function LiveCurlFeed() {
     return (
       <div className="cyber-card">
         <h3 className="text-xl font-bold text-matrix-green mb-4 font-mono">
-          🔴 Live Dumbass Feed
+          🔴 Live Usage Feed
         </h3>
         <div className="flex justify-center py-8">
           <div className="loader"></div>
@@ -52,16 +52,16 @@ export default function LiveCurlFeed() {
   return (
     <div className="cyber-card">
       <h3 className="text-xl font-bold text-matrix-green mb-4 font-mono glow-text">
-        🔴 Live Dumbass Feed
+        🔴 Live Usage Feed
       </h3>
       <p className="text-gray-600 text-sm mb-4">
-        Real-time tracking of people who just ran random scripts from the internet
+        Real-time installations of LinEnum by security professionals worldwide
       </p>
 
       <div className="space-y-2">
         {events.length === 0 ? (
           <p className="text-gray-500 text-center py-8 font-mono">
-            Waiting for the first brave soul...
+            Waiting for installations...
           </p>
         ) : (
           events.map((event, idx) => (

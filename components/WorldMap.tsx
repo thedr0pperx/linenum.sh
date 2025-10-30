@@ -35,7 +35,7 @@ export default function WorldMap() {
     return (
       <div className="cyber-card">
         <h3 className="text-xl font-bold text-matrix-green mb-4 font-mono">
-          🗺️ Global Dumbass Map
+          🗺️ Global Usage Map
         </h3>
         <div className="flex justify-center py-8">
           <div className="loader"></div>
@@ -47,27 +47,25 @@ export default function WorldMap() {
   return (
     <div className="cyber-card">
       <h3 className="text-xl font-bold text-matrix-green mb-4 font-mono glow-text">
-        🗺️ Global Dumbass Map
+        🗺️ Global Usage Map
       </h3>
       <p className="text-gray-600 text-sm mb-4">
-        <span className="inline-block w-4 h-4 bg-red-500 rounded-sm mr-2"></span>
-        Countries that curled it
-        <span className="inline-block w-4 h-4 bg-green-500 rounded-sm ml-4 mr-2"></span>
-        Safe countries (so far)
+        <span className="inline-block w-4 h-4 bg-matrix-green rounded-sm mr-2"></span>
+        Countries actively using LinEnum
       </p>
 
       <div className="relative bg-gray-50 border-2 border-matrix-green/30 rounded-lg p-8 min-h-[400px]">
         <div className="text-center">
           <p className="text-gray-600 mb-4 font-mono">
-            🌍 {mapData.countries.length} countries have fallen victim
+            🌍 {mapData.countries.length} countries using LinEnum
           </p>
           
           <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 mt-6">
             {mapData.countries.map((code) => (
               <div
                 key={code}
-                className="text-4xl p-2 bg-red-100 rounded border-2 border-red-300
-                         hover:scale-110 transition-transform"
+                className="text-4xl p-2 bg-green-50 rounded border-2 border-matrix-green/30
+                         hover:scale-110 transition-transform hover:border-matrix-green"
                 title={code}
               >
                 {getFlagEmoji(code)}
@@ -77,7 +75,7 @@ export default function WorldMap() {
 
           {mapData.countries.length === 0 && (
             <p className="text-gray-500 py-12 font-mono">
-              No victims yet... be the first! 😈
+              No installations yet...
             </p>
           )}
 

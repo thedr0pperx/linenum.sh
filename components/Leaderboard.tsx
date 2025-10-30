@@ -37,7 +37,7 @@ export default function Leaderboard() {
     return (
       <div className="cyber-card">
         <h3 className="text-xl font-bold text-matrix-green mb-4 font-mono">
-          🏆 Dumbass Leaderboard
+          🏆 Usage by Country
         </h3>
         <div className="flex justify-center py-8">
           <div className="loader"></div>
@@ -56,10 +56,10 @@ export default function Leaderboard() {
   return (
     <div className="cyber-card">
       <h3 className="text-xl font-bold text-matrix-green mb-4 font-mono glow-text">
-        🏆 Dumbass Leaderboard
+        🏆 Usage by Country
       </h3>
       <p className="text-gray-600 text-sm mb-4">
-        Top 10 countries by curl count - congratulations? 🤦
+        Top 10 countries using LinEnum for security testing
       </p>
 
       <div className="space-y-2">
