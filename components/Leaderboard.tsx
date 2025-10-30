@@ -120,9 +120,11 @@ export default function Leaderboard() {
 }
 
 function getFlagEmoji(countryCode: string): string {
-  if (!countryCode || countryCode === 'Unknown') return '🏴';
-  const codePoints = countryCode
-    .toUpperCase()
+  if (!countryCode || countryCode.length !== 2 || countryCode.toUpperCase() === 'UNKNOWN' || countryCode === 'LO') {
+    return '🏴'; // Default flag for unknown/invalid codes
+  }
+  const upperCode = countryCode.toUpperCase();
+  const codePoints = upperCode
     .split('')
     .map(char => 127397 + char.charCodeAt(0));
   return String.fromCodePoint(...codePoints);

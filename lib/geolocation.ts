@@ -58,20 +58,28 @@ function getCountryNameFromCode(code: string): string {
 
 async function tryGeolocationAPI(url: string, parseFn: (data: any) => GeoLocation | null): Promise<GeoLocation | null> {
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+    
     const response = await fetch(url, {
       next: { revalidate: 3600 },
       headers: {
         'User-Agent': 'Mozilla/5.0',
       },
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       return null;
     }
 
     const data = await response.json();
-    return parseFn(data);
+    const result = parseFn(data);
+    return result;
   } catch (error) {
+    // Silently fail and try next API
     return null;
   }
 }
@@ -101,9 +109,9 @@ export async function getLocationFromIP(ip: string): Promise<GeoLocation> {
 
   if (result) return result;
 
-  // Fallback to ip-api.com
+  // Fallback to ip-api.com (use https)
   result = await tryGeolocationAPI(
-    `http://ip-api.com/json/${ip}?fields=status,message,country,countryCode,city`,
+    `https://ip-api.com/json/${ip}?fields=status,message,country,countryCode,city`,
     (data) => {
       if (data.status === 'fail' || !data.countryCode) return null;
       const countryCode = (data.countryCode || '').toUpperCase();
