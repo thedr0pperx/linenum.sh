@@ -72,22 +72,6 @@ curl https://example.com/script.sh | bash
 - **Deployment**: Vercel Edge Functions
 - **Language**: TypeScript
 
-## 🎨 Customization
-
-The project uses a Matrix-inspired theme adapted for light backgrounds. Colors are defined in `tailwind.config.ts`:
-
-```typescript
-colors: {
-  matrix: {
-    green: '#00FF41',
-    dark: '#F5F5F5',
-    darker: '#FFFFFF',
-    accent: '#00CC33',
-    border: '#00FF4180',
-  }
-}
-```
-
 ## 🔒 Security & Privacy
 
 - **No IP Storage**: We use your IP only to determine country, then discard it immediately
