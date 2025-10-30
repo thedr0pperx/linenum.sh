@@ -38,12 +38,21 @@ export async function GET(request: NextRequest) {
 
 function generateRickrollScript(): string {
   return `#!/bin/bash
+# Rick Astley in your Terminal - Pure Bash Edition
+# Adapted for linenum.sh
 
-# ============================================
-# WARNING: DON'T BE A DUMBASS!
-# ============================================
+red='\\x1b[38;5;9m'
+yell='\\x1b[38;5;216m'
+green='\\x1b[38;5;10m'
+purp='\\x1b[38;5;171m'
+cyan='\\x1b[38;5;14m'
+reset='\\x1b[0m'
 
-echo ""
+echo -en "\\x1b[?25l"  # Hide cursor
+clear
+
+# Warning message
+echo -e "\${red}"
 echo "╔══════════════════════════════════════════════════════════════╗"
 echo "║                                                              ║"
 echo "║  🚨 DON'T DOWNLOAD RANDOM SCRIPTS FROM THE INTERNET 🚨      ║"
@@ -60,13 +69,14 @@ echo "║                                                              ║"
 echo "║  Lucky for you, this is just an educational project! 😅      ║"
 echo "║                                                              ║"
 echo "╚══════════════════════════════════════════════════════════════╝"
+echo -e "\${reset}"
 echo ""
-echo "Now, enjoy your reward for being careless..."
-echo ""
+echo -e "\${yell}Now, enjoy your reward for being careless...\${reset}"
 sleep 2
-
-# ASCII Art Rickroll
 clear
+
+# Animated Rick Astley ASCII Art
+echo -e "\${purp}"
 echo ""
 echo "    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 echo "    ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀"
@@ -81,35 +91,52 @@ echo "    ⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿�
 echo "    ⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀"
 echo "    ⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀"
 echo "    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠿⠿⠿⠿⠿⠿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
+echo -e "\${reset}"
 echo ""
-echo "          🎵 Never gonna give you up 🎵"
-echo "          🎵 Never gonna let you down 🎵"
-echo "          🎵 Never gonna run around and desert you 🎵"
-echo "          🎵 Never gonna make you cry 🎵"
-echo "          🎵 Never gonna say goodbye 🎵"
-echo "          🎵 Never gonna tell a lie and hurt you 🎵"
+sleep 1
+
+# Animated song lyrics with colors
+echo -e "\${cyan}          🎵 Never gonna give you up 🎵\${reset}"
+sleep 0.8
+echo -e "\${green}          🎵 Never gonna let you down 🎵\${reset}"
+sleep 0.8
+echo -e "\${yell}          🎵 Never gonna run around and desert you 🎵\${reset}"
+sleep 0.8
+echo -e "\${purp}          🎵 Never gonna make you cry 🎵\${reset}"
+sleep 0.8
+echo -e "\${cyan}          🎵 Never gonna say goodbye 🎵\${reset}"
+sleep 0.8
+echo -e "\${green}          🎵 Never gonna tell a lie and hurt you 🎵\${reset}"
+sleep 1
 echo ""
+
+# Big reveal
+echo -e "\${red}"
 echo "    ┌──────────────────────────────────────────────┐"
 echo "    │  You've been RICKROLLED! 😂                  │"
 echo "    │                                              │"
-echo "    │  Learn more at: https://linenum.sh           │"
-echo "    │  GitHub: github.com/thedr0pperx/linenum.sh   │"
+echo -e "    │  \${purp}Learn more at: https://linenum.sh\${red}           │"
+echo -e "    │  \${cyan}GitHub: github.com/thedr0pperx/linenum.sh\${red}   │"
 echo "    │                                              │"
 echo "    │  Stay safe. Review code before running it!   │"
 echo "    └──────────────────────────────────────────────┘"
+echo -e "\${reset}"
 echo ""
+sleep 1
 
-# Pro tip for next time
+# Educational outro
+echo -e "\${yell}💡 PRO TIP: Next time, do this instead:\${reset}"
 echo ""
-echo "💡 PRO TIP: Next time, do this instead:"
-echo ""
-echo "   curl https://example.com/script.sh -o script.sh"
+echo -e "\${green}   curl https://example.com/script.sh -o script.sh"
 echo "   cat script.sh  # Review the contents!"
 echo "   chmod +x script.sh"
-echo "   ./script.sh"
+echo -e "   ./script.sh\${reset}"
 echo ""
-echo "Your IP has been logged at linenum.sh for educational purposes. 📊"
+echo -e "\${purp}Your IP has been logged at linenum.sh for educational purposes. 📊\${reset}"
 echo ""
+echo -e "\${cyan}<3 Stay safe, stay skeptical! <3\${reset}"
+echo ""
+echo -en "\\x1b[?25h"  # Show cursor again
 `;
 }
 
