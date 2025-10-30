@@ -136,8 +136,8 @@ echo "    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⣶⣶⣶⣶⣶⣶⣾⣿⣿⣿⣿�
 sleep 1
 
 echo -e "\${green}"
-echo "          🎵 ♫ Never gonna give you up ♫ 🎵"
-echo "          🎵 ♪ Never gonna let you down ♪ 🎵"
+echo "          🎵 ♫ ♪ ♫ 🎵"
+echo "          🎶 Music Playing 🎶"
 sleep 2
 
 # Big reveal
