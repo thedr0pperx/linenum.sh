@@ -58,13 +58,20 @@ export async function getRecentEvents(limit: number = 10): Promise<CurlEvent[]> 
   if (isKVConfigured()) {
     try {
       const events = await kv.lrange('curl_events', 0, limit - 1);
+      console.log('📊 Raw events from KV:', events.length);
       // Handle both old format (with ip) and new format (without ip)
-      return events.map((e: string) => {
+      const processedEvents = events.map((e: string) => {
         const parsed = JSON.parse(e);
-        // Remove ip field if it exists (from old events)
-        const { ip, ...eventWithoutIp } = parsed;
-        return eventWithoutIp;
+        // Extract only the fields we need, ignore ip field
+        return {
+          country: parsed.country,
+          countryCode: parsed.countryCode,
+          timestamp: parsed.timestamp,
+          userAgent: parsed.userAgent
+        } as CurlEvent;
       });
+      console.log('📊 Processed events:', processedEvents.length);
+      return processedEvents;
     } catch (error) {
       console.error('Error reading from KV:', error);
       return memoryStore.slice(0, limit);

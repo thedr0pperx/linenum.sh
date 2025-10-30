@@ -97,24 +97,24 @@ export default function WorldMap() {
                     
                     // Check if country is active - handle various formats
                     const isActive = mapData.countries.some(code => {
-                      const upperCode = code.toUpperCase();
+                      const upperCode = code?.toUpperCase() || '';
                       // Check ISO2, ISO3, and also handle edge cases
-                      return upperCode === iso2?.toUpperCase() || 
+                      const matches = upperCode === iso2?.toUpperCase() || 
                              upperCode === iso3?.toUpperCase() ||
                              (iso2 === 'GB' && upperCode === 'UK') || // Handle UK/GB mismatch
-                             (iso2 === 'UK' && upperCode === 'GB');
+                             (iso2 === 'UK' && upperCode === 'GB') ||
+                             (upperCode === 'GB' && (iso2 === 'GB' || iso3 === 'GBR'));
+                      
+                      if (matches && iso2) {
+                        console.log(`✅ Matched country: ${name} (${iso2}/${iso3}) with code: ${code}`);
+                      }
+                      return matches;
                     });
 
-                    // Debug logging
-                    if (iso2 === 'GB' || iso3 === 'GBR' || name?.includes('United Kingdom')) {
-                      console.log(`🇬🇧 UK Debug:`, { 
-                        name, 
-                        iso2, 
-                        iso3, 
-                        isActive, 
-                        mapDataCountries: mapData.countries,
-                        geoProperties: geo.properties
-                      });
+                    // Debug logging for all geographies on first render
+                    if (mapData.countries.length > 0 && geo.rsmKey === 'geo-1') {
+                      console.log('🗺️ Map data countries:', mapData.countries);
+                      console.log('🗺️ Total geographies:', geographies.length);
                     }
 
                     return (
