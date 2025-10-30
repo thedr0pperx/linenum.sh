@@ -38,15 +38,19 @@ export async function GET(request: NextRequest) {
 
 function generateRickrollScript(): string {
   return `#!/bin/bash
-# Rick Astley in your Terminal - Pure Bash Edition
-# Adapted for linenum.sh
+# Rick Astley in your Terminal
+# Adapted for linenum.sh educational project
 
 red='\\x1b[38;5;9m'
 yell='\\x1b[38;5;216m'
 green='\\x1b[38;5;10m'
 purp='\\x1b[38;5;171m'
-cyan='\\x1b[38;5;14m'
 reset='\\x1b[0m'
+audpid=0
+
+has?() { hash $1 2>/dev/null; }
+cleanup() { (( audpid > 1 )) && kill $audpid 2>/dev/null; }
+trap "cleanup" INT
 
 echo -en "\\x1b[?25l"  # Hide cursor
 clear
@@ -72,10 +76,26 @@ echo "╚═══════════════════════�
 echo -e "\${reset}"
 echo ""
 echo -e "\${yell}Now, enjoy your reward for being careless...\${reset}"
+echo ""
 sleep 2
+
+# Try to play audio in background if available
+if has? afplay; then
+  curl -s https://keroserene.net/lol/roll.s16 > /tmp/roll.s16 2>/dev/null
+  afplay /tmp/roll.s16 &>/dev/null &
+  audpid=$!
+elif has? aplay; then
+  curl -s https://keroserene.net/lol/roll.s16 | aplay -Dplug:default -q -f S16_LE -r 8000 &>/dev/null &
+  audpid=$!
+elif has? play; then
+  curl -s https://keroserene.net/lol/roll.gsm > /tmp/roll.gsm.wav 2>/dev/null
+  play -q /tmp/roll.gsm.wav &>/dev/null &
+  audpid=$!
+fi
+
 clear
 
-# Animated Rick Astley ASCII Art
+# Rick Astley ASCII Art
 echo -e "\${purp}"
 echo ""
 echo "    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
@@ -93,36 +113,23 @@ echo "    ⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀�
 echo "    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠿⠿⠿⠿⠿⠿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 echo -e "\${reset}"
 echo ""
-sleep 1
-
-# Animated song lyrics with colors
-echo -e "\${cyan}          🎵 Never gonna give you up 🎵\${reset}"
-sleep 0.8
-echo -e "\${green}          🎵 Never gonna let you down 🎵\${reset}"
-sleep 0.8
-echo -e "\${yell}          🎵 Never gonna run around and desert you 🎵\${reset}"
-sleep 0.8
-echo -e "\${purp}          🎵 Never gonna make you cry 🎵\${reset}"
-sleep 0.8
-echo -e "\${cyan}          🎵 Never gonna say goodbye 🎵\${reset}"
-sleep 0.8
-echo -e "\${green}          🎵 Never gonna tell a lie and hurt you 🎵\${reset}"
-sleep 1
-echo ""
+echo -e "\${green}          🎵 ♫ ♪ ♫ 🎵\${reset}"
+sleep 3
 
 # Big reveal
+echo ""
 echo -e "\${red}"
 echo "    ┌──────────────────────────────────────────────┐"
 echo "    │  You've been RICKROLLED! 😂                  │"
 echo "    │                                              │"
 echo -e "    │  \${purp}Learn more at: https://linenum.sh\${red}           │"
-echo -e "    │  \${cyan}GitHub: github.com/thedr0pperx/linenum.sh\${red}   │"
+echo -e "    │  \${green}GitHub: github.com/thedr0pperx/linenum.sh\${red}   │"
 echo "    │                                              │"
 echo "    │  Stay safe. Review code before running it!   │"
 echo "    └──────────────────────────────────────────────┘"
 echo -e "\${reset}"
 echo ""
-sleep 1
+sleep 2
 
 # Educational outro
 echo -e "\${yell}💡 PRO TIP: Next time, do this instead:\${reset}"
@@ -134,9 +141,11 @@ echo -e "   ./script.sh\${reset}"
 echo ""
 echo -e "\${purp}Your IP has been logged at linenum.sh for educational purposes. 📊\${reset}"
 echo ""
-echo -e "\${cyan}<3 Stay safe, stay skeptical! <3\${reset}"
+echo -e "\${green}<3 Stay safe, stay skeptical! <3\${reset}"
 echo ""
 echo -en "\\x1b[?25h"  # Show cursor again
+
+cleanup
 `;
 }
 

@@ -1,6 +1,8 @@
 // Storage utility for curl events
 // Uses Vercel KV (Redis) for production, in-memory storage for development
 
+import { kv } from '@vercel/kv';
+
 interface CurlEvent {
   ip: string;
   country: string;
@@ -13,17 +15,13 @@ interface CurlEvent {
 let memoryStore: CurlEvent[] = [];
 let countryStats: Map<string, number> = new Map();
 
-// Try to import Vercel KV, fall back to memory storage if not available
-let kv: any = null;
-try {
-  const kvModule = require('@vercel/kv');
-  kv = kvModule.kv;
-} catch (e) {
-  console.log('Vercel KV not available, using in-memory storage');
-}
+// Check if KV is configured by checking for environment variables
+const isKVConfigured = () => {
+  return !!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
+};
 
 export async function addCurlEvent(event: CurlEvent) {
-  if (kv) {
+  if (isKVConfigured()) {
     try {
       // Add to recent events list (keep last 100)
       await kv.lpush('curl_events', JSON.stringify(event));
@@ -34,12 +32,15 @@ export async function addCurlEvent(event: CurlEvent) {
       
       // Add country to set of countries that curled
       await kv.sadd('curled_countries', event.countryCode);
+      
+      console.log(`✅ Stored curl event from ${event.country} (${event.countryCode})`);
     } catch (error) {
-      console.error('Error storing in KV:', error);
+      console.error('❌ Error storing in KV:', error);
       // Fall back to memory
       storeInMemory(event);
     }
   } else {
+    console.log('ℹ️ KV not configured, using in-memory storage');
     storeInMemory(event);
   }
 }
@@ -55,7 +56,7 @@ function storeInMemory(event: CurlEvent) {
 }
 
 export async function getRecentEvents(limit: number = 10): Promise<CurlEvent[]> {
-  if (kv) {
+  if (isKVConfigured()) {
     try {
       const events = await kv.lrange('curl_events', 0, limit - 1);
       return events.map((e: string) => JSON.parse(e));
@@ -69,7 +70,7 @@ export async function getRecentEvents(limit: number = 10): Promise<CurlEvent[]> 
 }
 
 export async function getLeaderboard(limit: number = 10): Promise<Array<{country: string, countryCode: string, count: number}>> {
-  if (kv) {
+  if (isKVConfigured()) {
     try {
       const stats = await kv.hgetall('country_stats');
       const entries = Object.entries(stats || {})
@@ -102,7 +103,7 @@ function getLeaderboardFromMemory(limit: number) {
 }
 
 export async function getCurledCountries(): Promise<string[]> {
-  if (kv) {
+  if (isKVConfigured()) {
     try {
       const countries = await kv.smembers('curled_countries');
       return countries || [];
