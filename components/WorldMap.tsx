@@ -22,9 +22,15 @@ export default function WorldMap() {
   useEffect(() => {
     const fetchMapData = async () => {
       try {
-        const res = await fetch('/api/curls/map');
+        const res = await fetch('/api/curls/map', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        });
         if (res.ok) {
           const data = await res.json();
+          console.log('🗺️ Map data received:', data);
           setMapData(data);
         }
       } catch (error) {
@@ -35,7 +41,7 @@ export default function WorldMap() {
     };
 
     fetchMapData();
-    const interval = setInterval(fetchMapData, 10000); // Poll every 10 seconds
+    const interval = setInterval(fetchMapData, 5000); // Poll every 5 seconds
 
     return () => clearInterval(interval);
   }, []);
@@ -82,10 +88,15 @@ export default function WorldMap() {
               <Geographies geography={geoUrl}>
                 {({ geographies }) =>
                   geographies.map((geo) => {
-                    const countryCode = geo.id; // ISO numeric code
-                    const isActive = mapData.countries.includes(countryCode) ||
-                                   mapData.countries.includes(geo.properties.ISO_A2) ||
-                                   mapData.countries.includes(geo.properties.ISO_A3);
+                    const iso2 = geo.properties.ISO_A2;
+                    const iso3 = geo.properties.ISO_A3;
+                    const isActive = mapData.countries.includes(iso2) ||
+                                   mapData.countries.includes(iso3);
+
+                    // Debug log for UK
+                    if (iso2 === 'GB' || iso3 === 'GBR') {
+                      console.log('🇬🇧 UK geo:', { iso2, iso3, isActive, countries: mapData.countries });
+                    }
 
                     return (
                       <Geography

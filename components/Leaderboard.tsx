@@ -15,7 +15,12 @@ export default function Leaderboard() {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const res = await fetch('/api/curls/leaderboard');
+        const res = await fetch('/api/curls/leaderboard', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        });
         if (res.ok) {
           const data = await res.json();
           setLeaderboard(data.leaderboard || []);

@@ -17,7 +17,12 @@ export default function LiveCurlFeed() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch('/api/curls/recent');
+        const res = await fetch('/api/curls/recent', {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache',
+          },
+        });
         if (res.ok) {
           const data = await res.json();
           setEvents(data.events || []);
