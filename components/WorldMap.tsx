@@ -111,10 +111,22 @@ export default function WorldMap() {
                       return matches;
                     });
 
-                    // Debug logging for all geographies on first render
+                    // Debug logging for all geographies
                     if (mapData.countries.length > 0 && geo.rsmKey === 'geo-1') {
                       console.log('🗺️ Map data countries:', mapData.countries);
                       console.log('🗺️ Total geographies:', geographies.length);
+                    }
+                    
+                    // Debug specific country properties
+                    if (name?.includes('United Kingdom') || iso2 === 'GB' || iso3 === 'GBR') {
+                      console.log('🇬🇧 UK Geography found:', {
+                        name,
+                        iso2,
+                        iso3,
+                        isActive,
+                        allProps: Object.keys(geo.properties || {}),
+                        properties: geo.properties
+                      });
                     }
 
                     return (
