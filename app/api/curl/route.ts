@@ -6,43 +6,34 @@ import { addCurlEvent } from '@/lib/storage';
 export async function GET(request: NextRequest) {
   const userAgent = request.headers.get('user-agent') || '';
   
-  // Check if it's actually a curl request
-  const isCurl = userAgent.toLowerCase().includes('curl') || 
-                 userAgent.toLowerCase().includes('wget') ||
-                 userAgent.toLowerCase().includes('httpie');
-
   // Get IP address
   const forwarded = request.headers.get('x-forwarded-for');
   const ip = forwarded ? forwarded.split(',')[0] : 
              request.headers.get('x-real-ip') || 
              '127.0.0.1';
 
-  if (isCurl) {
-    // Log the curl event
-    try {
-      const location = await getLocationFromIP(ip);
-      await addCurlEvent({
-        ip,
-        country: location.country,
-        countryCode: location.countryCode,
-        timestamp: Date.now(),
-        userAgent,
-      });
-    } catch (error) {
-      console.error('Error logging curl event:', error);
-    }
-
-    // Return the rickroll script
-    const script = generateRickrollScript();
-    return new NextResponse(script, {
-      headers: {
-        'Content-Type': 'text/plain',
-      },
+  // Log the curl event
+  try {
+    const location = await getLocationFromIP(ip);
+    await addCurlEvent({
+      ip,
+      country: location.country,
+      countryCode: location.countryCode,
+      timestamp: Date.now(),
+      userAgent,
     });
+  } catch (error) {
+    console.error('Error logging curl event:', error);
   }
 
-  // If not curl, redirect to homepage
-  return NextResponse.redirect(new URL('/', request.url));
+  // Return the rickroll script
+  const script = generateRickrollScript();
+  return new NextResponse(script, {
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+    },
+  });
 }
 
 function generateRickrollScript(): string {
