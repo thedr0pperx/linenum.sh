@@ -37,18 +37,20 @@ export async function GET(request: NextRequest) {
 
 function generateRickrollScript(): string {
   return `#!/bin/bash
-# Rick Astley in your Terminal
-# Adapted for linenum.sh educational project
+# Rick Astley Animated ASCII Rickroll
+# Adapted from johnsoupir/ASCII_Rickroll for linenum.sh educational project
+# Original: https://github.com/johnsoupir/ASCII_Rickroll
 
 red='\\x1b[38;5;9m'
 yell='\\x1b[38;5;216m'
 green='\\x1b[38;5;10m'
 purp='\\x1b[38;5;171m'
+cyan='\\x1b[38;5;51m'
 reset='\\x1b[0m'
 audpid=0
 
-has?() { hash $1 2>/dev/null; }
-cleanup() { (( audpid > 1 )) && kill $audpid 2>/dev/null; }
+has?() { hash \$1 2>/dev/null; }
+cleanup() { (( audpid > 1 )) && kill \$audpid 2>/dev/null; }
 trap "cleanup" INT
 
 echo -en "\\x1b[?25l"  # Hide cursor
@@ -79,52 +81,78 @@ echo ""
 sleep 2
 
 # Try to play audio in background if available
-if has? afplay; then
+if has? ffplay; then
+  curl -s https://keroserene.net/lol/roll.s16 | ffplay -nodisp -loglevel quiet -f s16le -ar 8000 -ac 1 - &>/dev/null &
+  audpid=\$!
+elif has? afplay; then
   curl -s https://keroserene.net/lol/roll.s16 > /tmp/roll.s16 2>/dev/null
   afplay /tmp/roll.s16 &>/dev/null &
-  audpid=$!
+  audpid=\$!
 elif has? aplay; then
   curl -s https://keroserene.net/lol/roll.s16 | aplay -Dplug:default -q -f S16_LE -r 8000 &>/dev/null &
-  audpid=$!
+  audpid=\$!
 elif has? play; then
   curl -s https://keroserene.net/lol/roll.gsm > /tmp/roll.gsm.wav 2>/dev/null
   play -q /tmp/roll.gsm.wav &>/dev/null &
-  audpid=$!
+  audpid=\$!
 fi
 
 clear
 
-# Rick Astley ASCII Art
+# Animated Rickroll - Credit: johnsoupir/ASCII_Rickroll
+echo -e "\${cyan}"
+cat << 'RICKROLL'
+      ,----------------,              ,---------,
+     ,-----------------------,          ,"        ,"|
+   ,"                      ,"|        ,"        ,"  |
+  +-----------------------+  |      ,"        ,"    |
+  |  .-----------------.  |  |     +---------+      |
+  |  |                 |  |  |     | -==----'|      |
+  |  |  Never Gonna    |  |  |     |         |      |
+  |  |  Give You Up!   |  |  |/----|\\`---=   |      |
+  |  |  C:\\>_          |  |  |   ,/|==== ooo |      ;
+  |  |                 |  |  |  // |(((( [33]|    ,"
+  |  \`-----------------'  |," .;'| |((((     |  ,"
+  +-----------------------+  ;;  | |         |,"
+     /_)______________(_/  //'   | +---------+
+RICKROLL
+
+sleep 1
 echo -e "\${purp}"
 echo ""
-echo "    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
-echo "    ⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀"
-echo "    ⠀⠀⠀⠀⠀⠀⠀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀⠀⠀⠀⠀"
-echo "    ⠀⠀⠀⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀"
-echo "    ⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀"
-echo "    ⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⠀⠀⠀⠀"
-echo "    ⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⠛⠛⠛⠛⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀"
-echo "    ⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣤⣤⣤⣤⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀"
-echo "    ⠀⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀"
-echo "    ⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀"
-echo "    ⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀"
-echo "    ⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀"
-echo "    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠿⠿⠿⠿⠿⠿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
-echo -e "\${reset}"
-echo ""
-echo -e "\${green}          🎵 ♫ ♪ ♫ 🎵\${reset}"
-sleep 3
+echo "    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
+echo "    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
+echo "    ⣿⣿⣿⣿⠟⠋⠉⠉⠉⠉⠉⠛⠻⣿⣿⣿⣿⠟⠛⠉⠉⠉⠉⠉⠙⠻⣿⣿⣿⣿"
+echo "    ⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿"
+echo "    ⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿"
+echo "    ⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿"
+echo "    ⣿⡇⠀⠀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⡀⠀⣿⣿"
+echo "    ⣿⡇⠀⠘⠿⠿⠿⠿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⠿⠿⠿⠿⠃⠀⣿⣿"
+echo "    ⣿⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿"
+echo "    ⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿"
+echo "    ⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿"
+echo "    ⣿⣿⣿⣿⣿⣦⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣠⣴⣿⣿⣿⣿⣿⣿⣿"
+echo "    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⣶⣶⣶⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿"
+sleep 1
+
+echo -e "\${green}"
+echo "          🎵 ♫ Never gonna give you up ♫ 🎵"
+echo "          🎵 ♪ Never gonna let you down ♪ 🎵"
+sleep 2
 
 # Big reveal
+clear
 echo ""
 echo -e "\${red}"
 echo "    ┌──────────────────────────────────────────────┐"
-echo "    │  You've been RICKROLLED! 😂                  │"
+echo "    │                                              │"
+echo "    │         You've been RICKROLLED! 😂           │"
 echo "    │                                              │"
 echo -e "    │  \${purp}Learn more at: https://linenum.sh\${red}           │"
 echo -e "    │  \${green}GitHub: github.com/thedr0pperx/linenum.sh\${red}   │"
 echo "    │                                              │"
 echo "    │  Stay safe. Review code before running it!   │"
+echo "    │                                              │"
 echo "    └──────────────────────────────────────────────┘"
 echo -e "\${reset}"
 echo ""
@@ -138,6 +166,7 @@ echo "   cat script.sh  # Review the contents!"
 echo "   chmod +x script.sh"
 echo -e "   ./script.sh\${reset}"
 echo ""
+echo -e "\${cyan}ASCII Rickroll adapted from: github.com/johnsoupir/ASCII_Rickroll\${reset}"
 echo -e "\${green}<3 Stay safe, stay skeptical! <3\${reset}"
 echo ""
 echo -en "\\x1b[?25h"  # Show cursor again
@@ -145,4 +174,3 @@ echo -en "\\x1b[?25h"  # Show cursor again
 cleanup
 `;
 }
-
