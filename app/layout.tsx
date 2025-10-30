@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
 
@@ -82,6 +83,20 @@ export default function RootLayout({
         <meta name="google-site-verification" content="your-verification-code" />
       </head>
       <body className={inter.className}>
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-RWQRL9Y09N"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-RWQRL9Y09N');
+          `}
+        </Script>
+        
         <Toaster 
           position="top-right"
           toastOptions={{
