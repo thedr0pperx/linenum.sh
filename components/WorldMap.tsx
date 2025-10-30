@@ -66,9 +66,9 @@ export default function WorldMap() {
       </h3>
       <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">
         <span className="inline-block w-3 h-3 sm:w-4 sm:h-4 bg-matrix-green rounded-sm mr-2"></span>
-        Dumbass countries that ran it
+        Countries that have run LinEnum
         <span className="inline-block w-3 h-3 sm:w-4 sm:h-4 bg-gray-300 rounded-sm ml-4 mr-2"></span>
-        Smart countries (so far)
+        No usage yet
       </p>
 
       <div className="relative bg-gray-50 border-2 border-matrix-green/30 rounded-lg p-2 sm:p-4 overflow-hidden">
