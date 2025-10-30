@@ -35,7 +35,7 @@ curl linenum.sh | bash
 Instead of a malicious script, you get:
 1. A clear warning message about the dangers
 2. A friendly ASCII art Rickroll
-3. Your IP address logged (for educational statistics)
+3. Your country logged for statistics (IP is NOT stored)
 
 No harm done - just a valuable lesson learned! 🎓
 
@@ -154,7 +154,8 @@ colors: {
 
 ## 🔒 Security & Privacy
 
-- **No Private Data**: We only log IP addresses and countries
+- **No IP Storage**: We use your IP only to determine country, then discard it immediately
+- **Anonymous Statistics**: We only store country codes for statistics
 - **No Tracking Cookies**: No third-party analytics or tracking
 - **Open Source**: Full transparency - all code is public
 - **Educational Purpose**: Data used only for demonstration

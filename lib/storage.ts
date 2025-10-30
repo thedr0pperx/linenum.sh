@@ -4,7 +4,6 @@
 import { kv } from '@vercel/kv';
 
 interface CurlEvent {
-  ip: string;
   country: string;
   countryCode: string;
   timestamp: number;

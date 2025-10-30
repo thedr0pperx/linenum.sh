@@ -12,11 +12,10 @@ export async function GET(request: NextRequest) {
              request.headers.get('x-real-ip') || 
              '127.0.0.1';
 
-  // Log the curl event
+  // Log the curl event (IP is used only to get country, not stored)
   try {
     const location = await getLocationFromIP(ip);
     await addCurlEvent({
-      ip,
       country: location.country,
       countryCode: location.countryCode,
       timestamp: Date.now(),
@@ -138,8 +137,6 @@ echo -e "\${green}   curl https://example.com/script.sh -o script.sh"
 echo "   cat script.sh  # Review the contents!"
 echo "   chmod +x script.sh"
 echo -e "   ./script.sh\${reset}"
-echo ""
-echo -e "\${purp}Your IP has been logged at linenum.sh for educational purposes. 📊\${reset}"
 echo ""
 echo -e "\${green}<3 Stay safe, stay skeptical! <3\${reset}"
 echo ""
