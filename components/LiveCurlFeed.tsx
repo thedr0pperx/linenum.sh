@@ -88,7 +88,7 @@ export default function LiveCurlFeed() {
                   </div>
                 </div>
                 <div className="text-gray-500 text-xs text-right">
-                  {formatDistanceToNow(event.timestamp, { addSuffix: true })}
+                  {event.timestamp ? formatDistanceToNow(new Date(event.timestamp), { addSuffix: true }) : 'Just now'}
                 </div>
               </div>
             </div>
