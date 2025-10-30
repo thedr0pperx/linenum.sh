@@ -88,14 +88,19 @@ export default function WorldMap() {
               <Geographies geography={geoUrl}>
                 {({ geographies }) =>
                   geographies.map((geo) => {
-                    const iso2 = geo.properties.ISO_A2;
-                    const iso3 = geo.properties.ISO_A3;
-                    const isActive = mapData.countries.includes(iso2) ||
-                                   mapData.countries.includes(iso3);
+                    const iso2 = geo.properties?.ISO_A2 || '';
+                    const iso3 = geo.properties?.ISO_A3 || '';
+                    const name = geo.properties?.NAME || '';
+                    
+                    // Check if country is active (case-insensitive)
+                    const isActive = mapData.countries.some(code => 
+                      code.toUpperCase() === iso2.toUpperCase() || 
+                      code.toUpperCase() === iso3.toUpperCase()
+                    );
 
-                    // Debug log for UK
-                    if (iso2 === 'GB' || iso3 === 'GBR') {
-                      console.log('🇬🇧 UK geo:', { iso2, iso3, isActive, countries: mapData.countries });
+                    // Debug log for all countries that match our data
+                    if (mapData.countries.length > 0 && isActive) {
+                      console.log(\`🗺️ Active country: \${name} (\${iso2}/\${iso3})\`, { isActive, mapData: mapData.countries });
                     }
 
                     return (
