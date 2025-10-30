@@ -30,6 +30,10 @@ yarn-error.log*
 .env.local
 .env
 
+# Security - NEVER commit these
+KV_REST_API_TOKEN
+KV_REST_API_URL
+
 # vercel
 .vercel
 
