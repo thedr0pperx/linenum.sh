@@ -22,10 +22,13 @@ export default function WorldMap() {
   useEffect(() => {
     const fetchMapData = async () => {
       try {
-        const res = await fetch('/api/curls/map', {
+        // Add timestamp to force fresh data
+        const res = await fetch(`/api/curls/map?t=${Date.now()}`, {
+          method: 'GET',
           cache: 'no-store',
           headers: {
             'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
           },
         });
         if (res.ok) {
@@ -92,15 +95,26 @@ export default function WorldMap() {
                     const iso3 = geo.properties?.ISO_A3 || '';
                     const name = geo.properties?.NAME || '';
                     
-                    // Check if country is active (case-insensitive)
-                    const isActive = mapData.countries.some(code => 
-                      code.toUpperCase() === iso2.toUpperCase() || 
-                      code.toUpperCase() === iso3.toUpperCase()
-                    );
+                    // Check if country is active - handle various formats
+                    const isActive = mapData.countries.some(code => {
+                      const upperCode = code.toUpperCase();
+                      // Check ISO2, ISO3, and also handle edge cases
+                      return upperCode === iso2?.toUpperCase() || 
+                             upperCode === iso3?.toUpperCase() ||
+                             (iso2 === 'GB' && upperCode === 'UK') || // Handle UK/GB mismatch
+                             (iso2 === 'UK' && upperCode === 'GB');
+                    });
 
-                    // Debug log for all countries that match our data
-                    if (mapData.countries.length > 0 && isActive) {
-                      console.log(`🗺️ Active country: ${name} (${iso2}/${iso3})`, { isActive, mapData: mapData.countries });
+                    // Debug logging
+                    if (iso2 === 'GB' || iso3 === 'GBR' || name?.includes('United Kingdom')) {
+                      console.log(`🇬🇧 UK Debug:`, { 
+                        name, 
+                        iso2, 
+                        iso3, 
+                        isActive, 
+                        mapDataCountries: mapData.countries,
+                        geoProperties: geo.properties
+                      });
                     }
 
                     return (

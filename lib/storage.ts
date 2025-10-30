@@ -72,6 +72,7 @@ export async function getLeaderboard(limit: number = 10): Promise<Array<{country
   if (isKVConfigured()) {
     try {
       const stats = await kv.hgetall('country_stats');
+      console.log('📊 getLeaderboard KV stats:', stats);
       const entries = Object.entries(stats || {})
         .map(([code, count]) => ({
           countryCode: code,
@@ -80,13 +81,16 @@ export async function getLeaderboard(limit: number = 10): Promise<Array<{country
         }))
         .sort((a, b) => b.count - a.count)
         .slice(0, limit);
+      console.log('📊 getLeaderboard result:', entries);
       return entries;
     } catch (error) {
       console.error('Error reading leaderboard from KV:', error);
       return getLeaderboardFromMemory(limit);
     }
   } else {
-    return getLeaderboardFromMemory(limit);
+    const result = getLeaderboardFromMemory(limit);
+    console.log('📊 getLeaderboard from memory:', result);
+    return result;
   }
 }
 
@@ -105,13 +109,18 @@ export async function getCurledCountries(): Promise<string[]> {
   if (isKVConfigured()) {
     try {
       const countries = await kv.smembers('curled_countries');
+      console.log('📍 getCurledCountries from KV:', countries);
       return countries || [];
     } catch (error) {
       console.error('Error reading countries from KV:', error);
-      return Array.from(countryStats.keys());
+      const fallback = Array.from(countryStats.keys());
+      console.log('📍 getCurledCountries fallback:', fallback);
+      return fallback;
     }
   } else {
-    return Array.from(countryStats.keys());
+    const memory = Array.from(countryStats.keys());
+    console.log('📍 getCurledCountries from memory:', memory);
+    return memory;
   }
 }
 

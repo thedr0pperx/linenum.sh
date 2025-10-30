@@ -17,14 +17,18 @@ export default function LiveCurlFeed() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch('/api/curls/recent', {
+        // Add timestamp to force fresh data
+        const res = await fetch(`/api/curls/recent?t=${Date.now()}`, {
+          method: 'GET',
           cache: 'no-store',
           headers: {
             'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
           },
         });
         if (res.ok) {
           const data = await res.json();
+          console.log('📍 Recent events received:', data);
           setEvents(data.events || []);
         }
       } catch (error) {

@@ -21,6 +21,6 @@ export async function GET() {
   }
 }
 
-// Enable CORS for client-side requests
-export const runtime = 'edge';
+// Use Node.js runtime for better KV support
+export const runtime = 'nodejs';
 
