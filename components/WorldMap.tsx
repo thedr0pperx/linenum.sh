@@ -100,7 +100,7 @@ export default function WorldMap() {
 
                     // Debug log for all countries that match our data
                     if (mapData.countries.length > 0 && isActive) {
-                      console.log(\`🗺️ Active country: \${name} (\${iso2}/\${iso3})\`, { isActive, mapData: mapData.countries });
+                      console.log(`🗺️ Active country: ${name} (${iso2}/${iso3})`, { isActive, mapData: mapData.countries });
                     }
 
                     return (
