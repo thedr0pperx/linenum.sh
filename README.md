@@ -72,25 +72,6 @@ curl https://example.com/script.sh | bash
 - **Deployment**: Vercel Edge Functions
 - **Language**: TypeScript
 
-## 📦 Deployment
-
-### Deploy to Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/thedr0pperx/linenum.sh)
-
-1. Fork this repository
-2. Import to Vercel
-3. Add a Vercel KV database in your project
-4. Deploy!
-
-The environment variables will be automatically populated by Vercel KV.
-
-### Custom Domain
-
-1. Add your domain in Vercel project settings
-2. Update DNS records as instructed by Vercel
-3. Wait for SSL certificate provisioning
-
 ## 🎨 Customization
 
 The project uses a Matrix-inspired theme adapted for light backgrounds. Colors are defined in `tailwind.config.ts`:
