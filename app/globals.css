@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  * {
+    border-color: rgba(0, 255, 65, 0.3);
+  }
+
+  body {
+    @apply bg-white text-gray-900 font-sans antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Glowing text effect - inverted for light bg */
+  .glow-text {
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.4),
+                 0 0 20px rgba(0, 255, 65, 0.3),
+                 0 0 30px rgba(0, 255, 65, 0.2);
+  }
+
+  /* Cyber button - adapted for light theme */
+  .cyber-btn {
+    @apply relative px-8 py-4 font-mono font-bold text-white bg-matrix-green 
+           hover:bg-matrix-accent transition-all duration-300 ease-in-out
+           transform hover:scale-105 hover:shadow-[0_0_20px_rgba(0,255,65,0.6)]
+           border-2 border-matrix-green uppercase tracking-wider;
+  }
+
+  /* Terminal effect - light theme */
+  .terminal {
+    @apply font-mono text-sm text-gray-900 bg-gray-50 
+           border-2 border-matrix-green/40 p-6 rounded-lg
+           shadow-[0_0_10px_rgba(0,255,65,0.2)];
+  }
+
+  /* Card styling */
+  .cyber-card {
+    @apply relative bg-white border-2 border-matrix-green/30 
+           backdrop-blur-sm p-6 rounded-lg transition-all duration-300
+           hover:border-matrix-green/60 hover:shadow-[0_0_20px_rgba(0,255,65,0.2)];
+  }
+
+  /* Code box */
+  .code-box {
+    @apply font-mono text-sm bg-gray-900 text-matrix-green p-4 rounded-lg
+           border-2 border-matrix-green/50 shadow-[0_0_15px_rgba(0,255,65,0.3)];
+  }
+
+  /* Loading spinner */
+  .loader {
+    border: 3px solid rgba(0, 255, 65, 0.1);
+    border-top-color: #00FF41;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00FF41;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00cc33;
+}
+
