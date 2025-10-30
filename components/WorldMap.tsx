@@ -35,7 +35,7 @@ export default function WorldMap() {
     return (
       <div className="cyber-card">
         <h3 className="text-xl font-bold text-matrix-green mb-4 font-mono">
-          🗺️ Global Usage Map
+          🗺️ Global Dumbass Map
         </h3>
         <div className="flex justify-center py-8">
           <div className="loader"></div>
@@ -47,7 +47,7 @@ export default function WorldMap() {
   return (
     <div className="cyber-card">
       <h3 className="text-xl font-bold text-matrix-green mb-4 font-mono glow-text">
-        🗺️ Global Usage Map
+        🗺️ Global Dumbass Map
       </h3>
       <p className="text-gray-600 text-sm mb-4">
         <span className="inline-block w-4 h-4 bg-matrix-green rounded-sm mr-2"></span>

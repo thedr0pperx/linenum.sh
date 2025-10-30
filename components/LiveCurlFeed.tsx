@@ -40,7 +40,7 @@ export default function LiveCurlFeed() {
     return (
       <div className="cyber-card">
         <h3 className="text-xl font-bold text-matrix-green mb-4 font-mono">
-          🔴 Live Usage Feed
+          🔴 Live Dumbass Feed
         </h3>
         <div className="flex justify-center py-8">
           <div className="loader"></div>
@@ -52,7 +52,7 @@ export default function LiveCurlFeed() {
   return (
     <div className="cyber-card">
       <h3 className="text-xl font-bold text-matrix-green mb-4 font-mono glow-text">
-        🔴 Live Usage Feed
+        🔴 Live Dumbass Feed
       </h3>
       <p className="text-gray-600 text-sm mb-4">
         Real-time installations of LinEnum by security professionals worldwide
