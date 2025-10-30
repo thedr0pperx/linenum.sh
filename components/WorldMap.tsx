@@ -91,57 +91,52 @@ export default function WorldMap() {
               <Geographies geography={geoUrl}>
                 {({ geographies }) =>
                   geographies.map((geo) => {
-                    // Try multiple possible property names for country codes
+                    // Get the country name from properties
                     const props = geo.properties || {};
-                    const iso2 = props.ISO_A2 || props.ISO_A2_EH || props.ADM0_ISO || props.ISO || '';
-                    const iso3 = props.ISO_A3 || props.ADM0_A3 || props.ISO3 || '';
-                    const name = props.NAME || props.NAME_EN || props.ADMIN || props.ADM0_NAME || '';
+                    const countryName = props.name || '';
                     
-                    // Log first geography to see all available properties
-                    if (geo.rsmKey === 'geo-1') {
-                      console.log('📍 First geography properties:', Object.keys(props));
-                      console.log('📍 Sample values:', {
-                        NAME: props.NAME,
-                        ISO_A2: props.ISO_A2,
-                        ISO_A3: props.ISO_A3,
-                        ADM0_A3: props.ADM0_A3,
-                        ADMIN: props.ADMIN
-                      });
+                    // Log first few countries to see the naming format
+                    if (geo.rsmKey === 'geo-1' || geo.rsmKey === 'geo-2' || geo.rsmKey === 'geo-3') {
+                      console.log(`📍 Geography ${geo.rsmKey}:`, countryName);
                     }
+                    
+                    // Map of country codes to names
+                    const countryCodeToName: Record<string, string[]> = {
+                      'GB': ['United Kingdom', 'UK', 'Britain', 'Great Britain'],
+                      'US': ['United States', 'USA', 'United States of America'],
+                      'DE': ['Germany'],
+                      'FR': ['France'],
+                      'CA': ['Canada'],
+                      'AU': ['Australia'],
+                    };
                     
                     // Check if country is active
                     const isActive = mapData.countries.some(code => {
                       if (!code) return false;
                       const upperCode = code.toUpperCase();
                       
-                      // Check all possible matches
-                      const matches = 
-                        upperCode === iso2?.toUpperCase() || 
-                        upperCode === iso3?.toUpperCase() ||
-                        upperCode === props.ADM0_A3?.toUpperCase() ||
-                        upperCode === props.ISO?.toUpperCase() ||
-                        (upperCode === 'GB' && (
-                          name?.includes('United Kingdom') || 
-                          name?.includes('Britain') ||
-                          props.ADMIN?.includes('United Kingdom')
-                        ));
+                      // Get possible names for this code
+                      const possibleNames = countryCodeToName[upperCode] || [];
+                      
+                      // Check if the geography name matches any possible name
+                      const matches = possibleNames.some(possibleName => 
+                        countryName.toLowerCase() === possibleName.toLowerCase()
+                      );
+                      
+                      if (matches) {
+                        console.log(`✅ Matched: ${countryName} = ${code}`);
+                      }
                       
                       return matches;
                     });
                     
                     // Debug UK specifically
-                    if (name?.includes('United Kingdom') || name?.includes('Britain') || 
-                        props.ADMIN?.includes('United Kingdom') || iso2 === 'GB' || 
-                        props.ADM0_A3 === 'GBR' || props.ISO_A2 === 'GB') {
+                    if (countryName.toLowerCase().includes('united kingdom') || 
+                        countryName.toLowerCase().includes('britain')) {
                       console.log('🇬🇧 UK found:', {
-                        name,
-                        iso2,
-                        iso3,
-                        ADM0_A3: props.ADM0_A3,
-                        ADMIN: props.ADMIN,
+                        countryName,
                         isActive,
                         searching: mapData.countries,
-                        allProps: Object.keys(props).slice(0, 10) // First 10 properties
                       });
                     }
 
