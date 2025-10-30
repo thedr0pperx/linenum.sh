@@ -33,7 +33,6 @@ export default function WorldMap() {
         });
         if (res.ok) {
           const data = await res.json();
-          console.log('🗺️ Map data received:', data);
           setMapData(data);
         }
       } catch (error) {
@@ -95,11 +94,6 @@ export default function WorldMap() {
                     const props = geo.properties || {};
                     const countryName = props.name || '';
                     
-                    // Log first few countries to see the naming format
-                    if (geo.rsmKey === 'geo-1' || geo.rsmKey === 'geo-2' || geo.rsmKey === 'geo-3') {
-                      console.log(`📍 Geography ${geo.rsmKey}:`, countryName);
-                    }
-                    
                     // Map of country codes to names
                     const countryCodeToName: Record<string, string[]> = {
                       'GB': ['United Kingdom', 'UK', 'Britain', 'Great Britain'],
@@ -123,22 +117,8 @@ export default function WorldMap() {
                         countryName.toLowerCase() === possibleName.toLowerCase()
                       );
                       
-                      if (matches) {
-                        console.log(`✅ Matched: ${countryName} = ${code}`);
-                      }
-                      
                       return matches;
                     });
-                    
-                    // Debug UK specifically
-                    if (countryName.toLowerCase().includes('united kingdom') || 
-                        countryName.toLowerCase().includes('britain')) {
-                      console.log('🇬🇧 UK found:', {
-                        countryName,
-                        isActive,
-                        searching: mapData.countries,
-                      });
-                    }
 
                     return (
                       <Geography

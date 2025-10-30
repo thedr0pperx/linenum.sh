@@ -28,7 +28,6 @@ export default function LiveCurlFeed() {
         });
         if (res.ok) {
           const data = await res.json();
-          console.log('📍 Recent events received:', data);
           setEvents(data.events || []);
         }
       } catch (error) {

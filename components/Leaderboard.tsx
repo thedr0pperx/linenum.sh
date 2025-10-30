@@ -26,7 +26,6 @@ export default function Leaderboard() {
         });
         if (res.ok) {
           const data = await res.json();
-          console.log('📊 Leaderboard data received:', data);
           setLeaderboard(data.leaderboard || []);
         }
       } catch (error) {

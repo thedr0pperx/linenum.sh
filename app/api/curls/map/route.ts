@@ -4,7 +4,6 @@ import { getCurledCountries } from '@/lib/storage';
 export async function GET() {
   try {
     const countries = await getCurledCountries();
-    console.log('🗺️ Map API returning countries:', countries);
     return NextResponse.json(
       { countries },
       {

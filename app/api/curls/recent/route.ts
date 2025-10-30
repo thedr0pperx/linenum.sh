@@ -3,14 +3,7 @@ import { getRecentEvents } from '@/lib/storage';
 
 export async function GET() {
   try {
-    console.log('📍 Recent events API called');
     const events = await getRecentEvents(10);
-    console.log('📍 Events returned:', events.length);
-    
-    // Log first event for debugging
-    if (events.length > 0) {
-      console.log('📍 First event sample:', events[0]);
-    }
     
     return NextResponse.json(
       { events },

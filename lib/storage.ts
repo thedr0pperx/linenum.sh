@@ -31,15 +31,12 @@ export async function addCurlEvent(event: CurlEvent) {
       
       // Add country to set of countries that curled
       await kv.sadd('curled_countries', event.countryCode);
-      
-      console.log(`✅ Stored curl event from ${event.country} (${event.countryCode})`);
     } catch (error) {
       console.error('❌ Error storing in KV:', error);
       // Fall back to memory
       storeInMemory(event);
     }
   } else {
-    console.log('ℹ️ KV not configured, using in-memory storage');
     storeInMemory(event);
   }
 }
@@ -58,7 +55,6 @@ export async function getRecentEvents(limit: number = 10): Promise<CurlEvent[]> 
   if (isKVConfigured()) {
     try {
       const events = await kv.lrange('curl_events', 0, limit - 1);
-      console.log('📊 Raw events from KV:', events.length, typeof events[0]);
       
       // Handle both string and object formats
       const processedEvents = events.map((e: any) => {
@@ -77,7 +73,6 @@ export async function getRecentEvents(limit: number = 10): Promise<CurlEvent[]> 
           userAgent: parsed.userAgent
         } as CurlEvent;
       });
-      console.log('📊 Processed events:', processedEvents.length);
       return processedEvents;
     } catch (error) {
       console.error('Error reading from KV:', error);
@@ -92,7 +87,6 @@ export async function getLeaderboard(limit: number = 10): Promise<Array<{country
   if (isKVConfigured()) {
     try {
       const stats = await kv.hgetall('country_stats');
-      console.log('📊 getLeaderboard KV stats:', stats);
       const entries = Object.entries(stats || {})
         .map(([code, count]) => ({
           countryCode: code,
@@ -101,16 +95,13 @@ export async function getLeaderboard(limit: number = 10): Promise<Array<{country
         }))
         .sort((a, b) => b.count - a.count)
         .slice(0, limit);
-      console.log('📊 getLeaderboard result:', entries);
       return entries;
     } catch (error) {
       console.error('Error reading leaderboard from KV:', error);
       return getLeaderboardFromMemory(limit);
     }
   } else {
-    const result = getLeaderboardFromMemory(limit);
-    console.log('📊 getLeaderboard from memory:', result);
-    return result;
+    return getLeaderboardFromMemory(limit);
   }
 }
 
@@ -129,18 +120,13 @@ export async function getCurledCountries(): Promise<string[]> {
   if (isKVConfigured()) {
     try {
       const countries = await kv.smembers('curled_countries');
-      console.log('📍 getCurledCountries from KV:', countries);
       return countries || [];
     } catch (error) {
       console.error('Error reading countries from KV:', error);
-      const fallback = Array.from(countryStats.keys());
-      console.log('📍 getCurledCountries fallback:', fallback);
-      return fallback;
+      return Array.from(countryStats.keys());
     }
   } else {
-    const memory = Array.from(countryStats.keys());
-    console.log('📍 getCurledCountries from memory:', memory);
-    return memory;
+    return Array.from(countryStats.keys());
   }
 }
 
