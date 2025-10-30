@@ -109,18 +109,12 @@ sleep 2
 # Big reveal
 clear
 echo ""
-echo -e "\${red}"
-echo "    ┌──────────────────────────────────────────────┐"
-echo "    │                                              │"
-echo "    │         You've been RICKROLLED! 😂           │"
-echo "    │                                              │"
-echo -e "    │  \${purp}Learn more at: https://linenum.sh\${red}           │"
-echo -e "    │  \${green}GitHub: github.com/thedr0pperx/linenum.sh\${red}   │"
-echo "    │                                              │"
-echo "    │  Stay safe. Review code before running it!   │"
-echo "    │                                              │"
-echo "    └──────────────────────────────────────────────┘"
-echo -e "\${reset}"
+echo -e "\${red}         You've been RICKROLLED! 😂\${reset}"
+echo ""
+echo -e "\${purp}Learn more at: https://linenum.sh\${reset}"
+echo -e "\${green}GitHub: github.com/thedr0pperx/linenum.sh\${reset}"
+echo ""
+echo -e "\${red}Stay safe. Review code before running it!\${reset}"
 echo ""
 sleep 2
 
@@ -132,8 +126,7 @@ echo "   cat script.sh  # Review the contents!"
 echo "   chmod +x script.sh"
 echo -e "   ./script.sh\${reset}"
 echo ""
-echo -e "\${cyan}ASCII Rickroll adapted from: github.com/johnsoupir/ASCII_Rickroll\${reset}"
-echo -e "\${green}<3 Stay safe, stay skeptical! <3\${reset}"
+echo -e "\${green}Stay safe, stay skeptical!\${reset}"
 echo ""
 echo -en "\\x1b[?25h"  # Show cursor again
 
