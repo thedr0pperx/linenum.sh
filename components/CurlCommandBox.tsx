@@ -3,11 +3,17 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
+type CommandMap = {
+  [key: string]: {
+    [key: string]: string;
+  };
+};
+
 export default function CurlCommandBox() {
   const [os, setOs] = useState('linux');
   const [shell, setShell] = useState('bash');
 
-  const commands = {
+  const commands: CommandMap = {
     linux: {
       bash: 'curl -s linenum.sh | bash',
       sh: 'curl -s linenum.sh | sh',
@@ -25,7 +31,7 @@ export default function CurlCommandBox() {
     },
   };
 
-  const command = commands[os as keyof typeof commands][shell as keyof typeof commands.linux];
+  const command = commands[os]?.[shell] || 'curl -s linenum.sh | bash';
 
   const copyToClipboard = async () => {
     try {
@@ -76,7 +82,7 @@ export default function CurlCommandBox() {
                      text-gray-900 font-mono focus:outline-none focus:border-matrix-green
                      transition-all cursor-pointer hover:border-matrix-green/60"
           >
-            {Object.keys(commands[os as keyof typeof commands]).map((sh) => (
+            {Object.keys(commands[os] || {}).map((sh) => (
               <option key={sh} value={sh}>
                 {sh}
               </option>
