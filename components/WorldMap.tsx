@@ -91,41 +91,57 @@ export default function WorldMap() {
               <Geographies geography={geoUrl}>
                 {({ geographies }) =>
                   geographies.map((geo) => {
-                    const iso2 = geo.properties?.ISO_A2 || '';
-                    const iso3 = geo.properties?.ISO_A3 || '';
-                    const name = geo.properties?.NAME || '';
+                    // Try multiple possible property names for country codes
+                    const props = geo.properties || {};
+                    const iso2 = props.ISO_A2 || props.ISO_A2_EH || props.ADM0_ISO || props.ISO || '';
+                    const iso3 = props.ISO_A3 || props.ADM0_A3 || props.ISO3 || '';
+                    const name = props.NAME || props.NAME_EN || props.ADMIN || props.ADM0_NAME || '';
                     
-                    // Check if country is active - handle various formats
-                    const isActive = mapData.countries.some(code => {
-                      const upperCode = code?.toUpperCase() || '';
-                      // Check ISO2, ISO3, and also handle edge cases
-                      const matches = upperCode === iso2?.toUpperCase() || 
-                             upperCode === iso3?.toUpperCase() ||
-                             (iso2 === 'GB' && upperCode === 'UK') || // Handle UK/GB mismatch
-                             (iso2 === 'UK' && upperCode === 'GB') ||
-                             (upperCode === 'GB' && (iso2 === 'GB' || iso3 === 'GBR'));
-                      
-                      if (matches && iso2) {
-                        console.log(`✅ Matched country: ${name} (${iso2}/${iso3}) with code: ${code}`);
-                      }
-                      return matches;
-                    });
-
-                    // Debug logging for all geographies
-                    if (mapData.countries.length > 0 && geo.rsmKey === 'geo-1') {
-                      console.log('🗺️ Map data countries:', mapData.countries);
-                      console.log('🗺️ Total geographies:', geographies.length);
+                    // Log first geography to see all available properties
+                    if (geo.rsmKey === 'geo-1') {
+                      console.log('📍 First geography properties:', Object.keys(props));
+                      console.log('📍 Sample values:', {
+                        NAME: props.NAME,
+                        ISO_A2: props.ISO_A2,
+                        ISO_A3: props.ISO_A3,
+                        ADM0_A3: props.ADM0_A3,
+                        ADMIN: props.ADMIN
+                      });
                     }
                     
-                    // Debug specific country properties
-                    if (name?.includes('United Kingdom') || iso2 === 'GB' || iso3 === 'GBR') {
-                      console.log('🇬🇧 UK Geography found:', {
+                    // Check if country is active
+                    const isActive = mapData.countries.some(code => {
+                      if (!code) return false;
+                      const upperCode = code.toUpperCase();
+                      
+                      // Check all possible matches
+                      const matches = 
+                        upperCode === iso2?.toUpperCase() || 
+                        upperCode === iso3?.toUpperCase() ||
+                        upperCode === props.ADM0_A3?.toUpperCase() ||
+                        upperCode === props.ISO?.toUpperCase() ||
+                        (upperCode === 'GB' && (
+                          name?.includes('United Kingdom') || 
+                          name?.includes('Britain') ||
+                          props.ADMIN?.includes('United Kingdom')
+                        ));
+                      
+                      return matches;
+                    });
+                    
+                    // Debug UK specifically
+                    if (name?.includes('United Kingdom') || name?.includes('Britain') || 
+                        props.ADMIN?.includes('United Kingdom') || iso2 === 'GB' || 
+                        props.ADM0_A3 === 'GBR' || props.ISO_A2 === 'GB') {
+                      console.log('🇬🇧 UK found:', {
                         name,
                         iso2,
                         iso3,
+                        ADM0_A3: props.ADM0_A3,
+                        ADMIN: props.ADMIN,
                         isActive,
-                        allProps: Object.keys(geo.properties || {}),
-                        properties: geo.properties
+                        searching: mapData.countries,
+                        allProps: Object.keys(props).slice(0, 10) // First 10 properties
                       });
                     }
 
