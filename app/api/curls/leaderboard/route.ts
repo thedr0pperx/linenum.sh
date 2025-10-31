@@ -23,3 +23,7 @@ export async function GET() {
 // Use Node.js runtime for better KV support
 export const runtime = 'nodejs';
 
+// Force dynamic rendering to prevent caching
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
