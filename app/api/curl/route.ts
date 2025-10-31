@@ -109,10 +109,12 @@ sleep 2
 # Big reveal
 clear
 echo ""
-echo -e "\${red}         You've been RICKROLLED! 😂\${reset}"
+echo -e "\${red}         Don't execute code without checking it first. \${reset}"
 echo ""
 echo -e "\${purp}Learn more at: https://linenum.sh\${reset}"
 echo -e "\${green}GitHub: github.com/thedr0pperx/linenum.sh\${reset}"
+echo -e "\${green}Contact: https://x.com/b7zCyber\${reset}"
+echo -e "\${green}Email: hello@b7z.tech\${reset}"
 echo ""
 echo -e "\${red}Stay safe. Review code before running it!\${reset}"
 echo ""
