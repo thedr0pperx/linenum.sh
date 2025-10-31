@@ -51,9 +51,9 @@ export const metadata: Metadata = {
     description: 'Automated Linux enumeration and privilege escalation checks for penetration testers and security researchers worldwide.',
     images: [
       {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
+        url: '/logo.png',
+        width: 512,
+        height: 512,
         alt: 'LinEnum.sh - Security Education',
       },
     ],
@@ -62,8 +62,21 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'LinEnum.sh - Linux Enumeration & Privilege Escalation',
     description: 'Automated security enumeration script for penetration testing and security research. Quick privilege escalation checks.',
-    images: ['/og-image.png'],
+    images: ['/logo.png'],
     creator: '@thedr0pperx',
+  },
+  icons: {
+    icon: [
+      { url: '/favicons/favicon.ico', sizes: 'any' },
+      { url: '/favicons/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicons/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/favicons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    other: [
+      { rel: 'manifest', url: '/favicons/site.webmanifest' },
+    ],
   },
   metadataBase: new URL('https://linenum.sh'),
   alternates: {
@@ -81,6 +94,10 @@ export default function RootLayout({
       <head>
         <link rel="canonical" href="https://linenum.sh" />
         <meta name="google-site-verification" content="your-verification-code" />
+        <link rel="icon" href="/favicons/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicons/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/favicons/apple-touch-icon.png" />
+        <link rel="manifest" href="/favicons/site.webmanifest" />
       </head>
       <body className={inter.className}>
         {/* Google Analytics */}
