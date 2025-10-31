@@ -51,9 +51,9 @@ export const metadata: Metadata = {
     description: 'Automated Linux enumeration and privilege escalation checks for penetration testers and security researchers worldwide.',
     images: [
       {
-        url: '/logo.png',
-        width: 512,
-        height: 512,
+        url: '/og_image.png',
+        width: 1200,
+        height: 630,
         alt: 'LinEnum.sh - Security Education',
       },
     ],
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'LinEnum.sh - Linux Enumeration & Privilege Escalation',
     description: 'Automated security enumeration script for penetration testing and security research. Quick privilege escalation checks.',
-    images: ['/logo.png'],
+    images: ['/og_image.png'],
     creator: '@thedr0pperx',
   },
   icons: {
